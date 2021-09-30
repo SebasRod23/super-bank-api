@@ -46,7 +46,7 @@ class Kernel extends HttpKernel
 
         'accounts' => [
             'auth:api',
-            'token.validate:api'
+            'token.validate'
         ]
     ];
 

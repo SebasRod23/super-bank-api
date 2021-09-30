@@ -29,4 +29,20 @@ class AccountsMovementsController extends Controller
             'message' => 'Successfully created movement'
         ], 201);
     }
+
+    public function transfer(Request $request){
+        $data = $request->validate(['amount' => 'required|numeric', 'description' => 'nullable']);
+        $source = auth()->user()->accounts()->where('account_number', $request->route('account'))->first();
+        $destiny = Account::where('account_number', $request->route('destiny'))->first();
+        $amount = $data['amount'] * 100;
+        $movement = Movement::BetweenAccounts($source, $destiny, $amount, $data['description']);
+        if ($movement == NULL){
+            return response()->json([
+                'message' => 'You don\'t have the balance to make this transfer'
+            ], 400);
+        }
+        return response()->json([
+            'message' => 'Successfully made the transfer to '.$destiny->account_number
+        ], 201);
+    }
 }
