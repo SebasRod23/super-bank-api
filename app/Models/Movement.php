@@ -88,4 +88,12 @@ class Movement extends Model
         $account->save();
         return $movement;
     }
+
+    public static function BetweenAccounts(Account $source, Account $destiny, int $amount, string $description = null) : ?Movement {
+        if ($source->current_balance < $amount) return NULL;
+        $amount = abs($amount);
+        $withdraw = Movement::Register($source, $amount, 'To ' . $destiny->account_number. '. ' . $description, Movement::WITHDRAW);
+        $deposit = Movement::Register($destiny, $amount, 'From ' . $source->account_number. '. ' . $description, Movement::DEPOSIT);
+        return $withdraw;
+    }
 }

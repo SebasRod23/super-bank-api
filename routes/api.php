@@ -31,7 +31,8 @@ Route::group([
 Route::middleware([
    'accounts'
 ])->group(function () {
-    Route::post('accounts', 'AccountsController@create')->withoutMiddleware([EnsureTokenIsValid::class]);
+    Route::post('accounts', 'AccountsController@create')->withoutMiddleware('token.validate');
     Route::get('accounts/{account}', 'AccountsController@getAccount');
     Route::post('accounts/{account}/movements', 'AccountsMovementsController@create');
+    Route::post('accounts/{account}/transfer/{destiny}', 'AccountsMovementsController@transfer');
 });
