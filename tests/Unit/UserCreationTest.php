@@ -16,7 +16,7 @@ class UserCreationTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function test_createAccount()
     {
         $user = User::factory()->create();
         $userNotSaved = User::factory ()->make();
